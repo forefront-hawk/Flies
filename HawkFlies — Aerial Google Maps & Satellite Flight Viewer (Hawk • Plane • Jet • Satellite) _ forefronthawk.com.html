@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-ov="ui-sophisticated">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>HawkFlies — Aerial Google Maps &amp; Satellite Flight Viewer (Hawk • Plane • Jet • Satellite) | forefronthawk.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Orbitron:wght@600;800;900&family=Press+Start+2P&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#090B10;--panel:#121620;--line:#2A3040;--text:#F8FAFC;--mute:#94A3B8;--plate:#181D2A;--accent:#D4AF37;
+--deck1:#161B26;--deck2:#0C0F17;--deck-border:#C5A059;--plate-border:#384152;
+--font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark
+}
+@media(prefers-color-scheme:light){:root[data-theme="auto"]{--bg:#E8EBF0;--panel:#F8FAFC;--line:#CBD5E1;--text:#0F172A;--mute:#475569;--plate:#8B93A3;--deck1:#CBD5E1;--deck2:#94A3B8;--deck-border:#64748B;color-scheme:light}}
+:root[data-theme="dark"]{--bg:#07090E;--panel:#12141A;--line:#262A34;--text:#F1F5F9;--mute:#94A3B8;--plate:#4B505C;--deck1:#1A1C23;--deck2:#101216;--deck-border:#2D323E}
+:root[data-theme="light"]{--bg:#E8EBF0;--panel:#F8FAFC;--line:#CBD5E1;--text:#0F172A;--mute:#475569;--plate:#8B93A3;--deck1:#CBD5E1;--deck2:#94A3B8;--deck-border:#64748B;color-scheme:light}
+:root[data-theme="matrix"]{--bg:#010902;--panel:#031606;--line:#00FF41;--text:#00FF41;--mute:#15803D;--plate:#042409;--accent:#00FF41;--deck1:#031A07;--deck2:#010802;--deck-border:#00FF41}
+:root[data-theme="midnight"]{--bg:#020617;--panel:#0F172A;--line:#1E293B;--text:#E2E8F0;--mute:#64748B;--plate:#1E293B;--deck1:#0F172A;--deck2:#020617;--deck-border:#334155}
+:root[data-theme="cyberpunk"]{--bg:#0D0221;--panel:#19053B;--line:#4C1D95;--text:#F0ABFC;--mute:#C084FC;--plate:#2E1065;--deck1:#240046;--deck2:#10002B;--deck-border:#7E22CE}
+:root[data-theme="emerald"]{--bg:#021612;--panel:#062821;--line:#0F4C3E;--text:#D1FAE5;--mute:#6EE7B7;--plate:#114237;--deck1:#06342B;--deck2:#021B16;--deck-border:#059669}
+:root[data-theme="crimson"]{--bg:#160408;--panel:#280911;--line:#501322;--text:#FFE4E6;--mute:#FDA4AF;--plate:#3F101C;--deck1:#310B15;--deck2:#190409;--deck-border:#BE123C}
+:root[data-theme="nord"]{--bg:#2E3440;--panel:#3B4252;--line:#4C566A;--text:#ECEFF4;--mute:#D8DEE9;--plate:#434C5E;--deck1:#3B4252;--deck2:#2E3440;--deck-border:#4C566A}
+:root[data-theme="solarlight"]{--bg:#FDF6E3;--panel:#EEE8D5;--line:#D3CBB7;--text:#073642;--mute:#586E75;--plate:#93A1A1;--deck1:#E1DBCA;--deck2:#D3CBB7;--deck-border:#93A1A1;color-scheme:light}
+:root[data-theme="solardark"]{--bg:#002B36;--panel:#073642;--line:#2AA198;--text:#93A1A1;--mute:#657B83;--plate:#0A4452;--deck1:#073642;--deck2:#00212B;--deck-border:#586E75}
+:root[data-theme="mocha"]{--bg:#1E1E2E;--panel:#181825;--line:#313244;--text:#CDD6F4;--mute:#A6ADC8;--plate:#45475A;--deck1:#26273B;--deck2:#11111B;--deck-border:#585B70}
+:root[data-theme="contrast"]{--bg:#000000;--panel:#0A0A0A;--line:#FFFFFF;--text:#FFFFFF;--mute:#E2E8F0;--plate:#1F1F1F;--deck1:#0A0A0A;--deck2:#000000;--deck-border:#FFFFFF}
+/* Core Overlays (Sophisticated ForefrontHawk Default, Tech, Futuristic, Classic & 20 Hardware/OS Skins) */
+[data-ov="ui-sophisticated"]{--bg:#090B10;--panel:#121620;--line:#2A3040;--text:#F8FAFC;--mute:#94A3B8;--plate:#181D2A;--accent:#D4AF37;--deck1:#161B26;--deck2:#0C0F17;--deck-border:#C5A059}
+[data-ov="ui-sophisticated"] .bar{background:linear-gradient(180deg,rgba(22,27,38,0.96),rgba(14,17,24,0.98))!important;border:1px solid rgba(212,175,55,0.35)!important}
+[data-ov="ui-sophisticated"] .deck{border:2px solid #C5A059!important;box-shadow:0 18px 45px rgba(0,0,0,0.85)!important}
+[data-ov="ui-tech"]{--bg:#040B14;--panel:#071524;--line:#0EA5E9;--text:#E0F2FE;--mute:#38BDF8;--plate:#081C30;--accent:#00F5D4;--deck1:#07192B;--deck2:#030C16;--deck-border:#0EA5E9;--font:"JetBrains Mono",monospace}
+[data-ov="ui-tech"] .bar,[data-ov="ui-tech"] .deck{border-radius:3px!important;border-color:#0EA5E9!important}
+[data-ov="ui-futuristic"]{--bg:#060414;--panel:#110B29;--line:#8B5CF6;--text:#F3E8FF;--mute:#C4B5FD;--plate:#170F36;--accent:#00F0FF;--deck1:#19103B;--deck2:#09051A;--deck-border:#00F0FF}
+[data-ov="ui-futuristic"] .bar,[data-ov="ui-futuristic"] .deck{border-radius:18px!important;border-color:#00F0FF!important;box-shadow:0 0 24px rgba(139,92,246,0.3)!important}
+[data-ov="os-win95"] .bar,[data-ov="os-win95"] .deck{background:#C0C0C0!important;color:#000!important;border:2px outset #FFF!important;border-radius:0!important}
+[data-ov="os-winxp"] .bar,[data-ov="os-winxp"] .deck{background:linear-gradient(180deg,#245EDB,#1941A5)!important;color:#FFF!important;border:2px solid #003399!important}
+[data-ov="os-pipboy"] .bar,[data-ov="os-pipboy"] .deck{background:#051405!important;color:#1AFF40!important;border:2px solid #1AFF40!important}
+[data-ov="app-winamp"] .bar,[data-ov="app-winamp"] .deck{background:#292938!important;color:#00FF00!important;border:2px ridge #6E738B!important;border-radius:0!important}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font:500 13px/1.4 var(--font);min-height:100vh;overflow-x:hidden;transition:background-color .18s,color .18s}
+.wrap{max-width:1240px;margin:0 auto;padding:8px 10px;display:flex;flex-direction:column;gap:8px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:7px 10px}
+button,select,input{font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:4px 8px;min-height:32px;cursor:pointer}
+button:hover{filter:brightness(1.14)}
+input[type=range]{padding:0;border:0;background:none;accent-color:var(--accent);min-height:auto}
+input[type=color]{padding:1px;width:36px;height:30px;min-height:30px}
+.brand{font-weight:800;font-size:15.5px;display:flex;align-items:center;gap:6px}.brand i{font-style:normal;color:var(--accent)}
+.chip{font:600 11px var(--mono);padding:3px 8px;border-radius:7px;border:1px solid var(--line);color:var(--mute)}
+.seg{display:flex;flex-wrap:wrap;gap:2px;border:1px solid var(--line);border-radius:10px;padding:2px}
+.seg button,.seg a.nav-pill{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:0;min-height:26px;padding:2px 9px;background:none;color:var(--mute);font-weight:700;font-size:11.5px;border-radius:7px;cursor:pointer}
+.seg button[aria-current="page"],.seg a.nav-pill[aria-current="page"]{background:var(--accent);color:#04121C}
+.deck{display:flex;flex-direction:column;gap:10px;background:linear-gradient(145deg,var(--deck1),var(--deck2));border:2px solid var(--deck-border);border-radius:18px;padding:12px}
+.subcard{background:rgba(0,0,0,0.2);border:1px solid var(--line);border-radius:10px;padding:7px 9px;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.subhead{font:800 10.5px var(--mono);text-transform:uppercase;color:var(--accent);letter-spacing:0.5px;margin-right:4px}
+.swatch-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:8px;border:2px solid #fff;font:800 12px var(--mono);box-shadow:0 0 12px var(--active-c,#10B981)}
+
+
+/* === COMPLETE 13 UI THEMES (Always override default palette variables cleanly) === */
+:root[data-theme="dark"]{--bg:#07090E!important;--panel:#12141A!important;--line:#262A34!important;--text:#F1F5F9!important;--mute:#94A3B8!important;--plate:#181D2A!important;--deck1:#161B26!important;--deck2:#0C0F17!important;--deck-border:#C5A059!important;color-scheme:dark}
+:root[data-theme="light"]{--bg:#E8EBF0!important;--panel:#F8FAFC!important;--line:#CBD5E1!important;--text:#0F172A!important;--mute:#475569!important;--plate:#CBD5E1!important;--deck1:#F1F5F9!important;--deck2:#E2E8F0!important;--deck-border:#64748B!important;color-scheme:light}
+:root[data-theme="matrix"]{--bg:#010902!important;--panel:#031606!important;--line:#00FF41!important;--text:#00FF41!important;--mute:#22C55E!important;--plate:#042409!important;--accent:#00FF41!important;--deck1:#031A07!important;--deck2:#010802!important;--deck-border:#00FF41!important}
+:root[data-theme="midnight"]{--bg:#020617!important;--panel:#0F172A!important;--line:#1E293B!important;--text:#E2E8F0!important;--mute:#64748B!important;--plate:#1E293B!important;--deck1:#0F172A!important;--deck2:#020617!important;--deck-border:#38BDF8!important}
+:root[data-theme="cyberpunk"]{--bg:#0D0221!important;--panel:#19053B!important;--line:#FF007F!important;--text:#F0ABFC!important;--mute:#C084FC!important;--plate:#2E1065!important;--accent:#00F0FF!important;--deck1:#240046!important;--deck2:#10002B!important;--deck-border:#FF007F!important}
+:root[data-theme="emerald"]{--bg:#021612!important;--panel:#062821!important;--line:#10B981!important;--text:#D1FAE5!important;--mute:#6EE7B7!important;--plate:#114237!important;--accent:#34D399!important;--deck1:#06342B!important;--deck2:#021B16!important;--deck-border:#10B981!important}
+:root[data-theme="crimson"]{--bg:#160408!important;--panel:#280911!important;--line:#F43F5E!important;--text:#FFE4E6!important;--mute:#FDA4AF!important;--plate:#3F101C!important;--accent:#FB7185!important;--deck1:#310B15!important;--deck2:#190409!important;--deck-border:#E11D48!important}
+:root[data-theme="nord"]{--bg:#2E3440!important;--panel:#3B4252!important;--line:#4C566A!important;--text:#ECEFF4!important;--mute:#D8DEE9!important;--plate:#434C5E!important;--accent:#88C0D0!important;--deck1:#3B4252!important;--deck2:#2E3440!important;--deck-border:#81A1C1!important}
+:root[data-theme="solarlight"]{--bg:#FDF6E3!important;--panel:#EEE8D5!important;--line:#D3CBB7!important;--text:#073642!important;--mute:#586E75!important;--plate:#D3CBB7!important;--accent:#B58900!important;--deck1:#EEE8D5!important;--deck2:#FDF6E3!important;--deck-border:#93A1A1!important;color-scheme:light}
+:root[data-theme="solardark"]{--bg:#002B36!important;--panel:#073642!important;--line:#2AA198!important;--text:#EEE8D5!important;--mute:#93A1A1!important;--plate:#0A4452!important;--accent:#2AA198!important;--deck1:#073642!important;--deck2:#00212B!important;--deck-border:#2AA198!important}
+:root[data-theme="mocha"]{--bg:#1E1E2E!important;--panel:#181825!important;--line:#45475A!important;--text:#CDD6F4!important;--mute:#A6ADC8!important;--plate:#313244!important;--accent:#CBA6F7!important;--deck1:#26273B!important;--deck2:#11111B!important;--deck-border:#CBA6F7!important}
+:root[data-theme="contrast"]{--bg:#000000!important;--panel:#0A0A0A!important;--line:#FFFFFF!important;--text:#FFFFFF!important;--mute:#FACC15!important;--plate:#1F1F1F!important;--accent:#FACC15!important;--deck1:#0A0A0A!important;--deck2:#000000!important;--deck-border:#FFFFFF!important}
+
+/* === COMPLETE 23 UI OVERLAYS (Sophisticated, Tech, Futuristic + 20 Hardware/OS Skins) === */
+[data-ov="ui-sophisticated"] .bar{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 95%,#D4AF37),var(--panel))!important;border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line))!important}
+[data-ov="ui-sophisticated"] .deck{border:2px solid var(--deck-border)!important;box-shadow:0 16px 40px rgba(0,0,0,0.55)!important}
+[data-ov="ui-tech"]{--font:"JetBrains Mono",monospace}
+[data-ov="ui-tech"] .bar,[data-ov="ui-tech"] .deck{border-radius:3px!important;border:1.5px solid #0EA5E9!important;box-shadow:inset 0 0 12px rgba(14,165,233,0.18)!important}
+[data-ov="ui-futuristic"] .bar,[data-ov="ui-futuristic"] .deck{border-radius:18px!important;border:1.5px solid #00F0FF!important;box-shadow:0 0 24px rgba(139,92,246,0.3)!important}
+[data-ov="mech-ibm"] .bar,[data-ov="mech-ibm"] .deck{background:#D6D2C4!important;color:#111!important;border:3px outset #F5F2E8!important;border-radius:4px!important}
+[data-ov="mech-ibm"] button,[data-ov="mech-ibm"] select{background:#EAE6D9!important;color:#111!important;border:2px outset #FFF!important;border-radius:3px!important}
+[data-ov="mech-c64"] .bar,[data-ov="mech-c64"] .deck{background:#96897B!important;color:#F5F0EB!important;border:3px solid #42382F!important;border-radius:8px!important}
+[data-ov="mech-cyber"] .bar,[data-ov="mech-cyber"] .deck{background:rgba(16,4,36,0.92)!important;color:#00F0FF!important;border:2px solid #FF007F!important;box-shadow:0 0 20px rgba(255,0,127,0.35)!important}
+[data-ov="mech-typewriter"] .bar,[data-ov="mech-typewriter"] .deck{background:#1C1612!important;color:#F5E6C8!important;border:3px double #D4AF37!important;border-radius:12px!important}
+[data-ov="mech-arcade"] .bar,[data-ov="mech-arcade"] .deck{background:#141829!important;color:#FACC15!important;border:3px solid #EF4444!important;border-radius:14px!important}
+[data-ov="plug-vst"] .bar,[data-ov="plug-vst"] .deck{background:linear-gradient(180deg,#2C3038,#1E2127)!important;color:#E2E8F0!important;border:2px solid #475569!important;border-radius:6px!important}
+[data-ov="plug-eurorack"] .bar,[data-ov="plug-eurorack"] .deck{background:#D4D4D8!important;color:#18181B!important;border:3px solid #52525B!important;border-radius:2px!important}
+[data-ov="plug-mpc"] .bar,[data-ov="plug-mpc"] .deck{background:#DCD7C9!important;color:#1F2937!important;border:4px solid #374151!important;border-radius:6px!important}
+[data-ov="plug-dmx"] .bar,[data-ov="plug-dmx"] .deck{background:#111318!important;color:#FBBF24!important;border:2px solid #F59E0B!important;border-radius:4px!important}
+[data-ov="plug-davinci"] .bar,[data-ov="plug-davinci"] .deck{background:#16161A!important;color:#E4E4E7!important;border:1px solid #3F3F46!important;border-radius:8px!important}
+[data-ov="app-winamp"] .bar,[data-ov="app-winamp"] .deck{background:#292938!important;color:#00FF00!important;border:2px ridge #6E738B!important;border-radius:0!important}
+[data-ov="app-ps3"] .bar,[data-ov="app-ps3"] .deck{background:#D4D0C8!important;color:#000!important;border:2px outset #FFF!important;border-radius:0!important}
+[data-ov="app-lotus"] .bar,[data-ov="app-lotus"] .deck{background:#000080!important;color:#FFFF00!important;border:2px double #00FFFF!important;border-radius:0!important}
+[data-ov="app-soundforge"] .bar,[data-ov="app-soundforge"] .deck{background:#1A2226!important;color:#00FF66!important;border:2px solid #00AA44!important;border-radius:2px!important}
+[data-ov="app-hypercard"] .bar,[data-ov="app-hypercard"] .deck{background:#FFFFFF!important;color:#000000!important;border:2px solid #000000!important;border-radius:0!important;box-shadow:4px 4px 0 #000!important}
+[data-ov="os-win95"] .bar,[data-ov="os-win95"] .deck{background:#C0C0C0!important;color:#000!important;border:2px outset #FFF!important;border-radius:0!important}
+[data-ov="os-win95"] button,[data-ov="os-win95"] select{background:#C0C0C0!important;color:#000!important;border:2px outset #FFF!important;border-radius:0!important}
+[data-ov="os-winxp"] .bar,[data-ov="os-winxp"] .deck{background:linear-gradient(180deg,#245EDB,#1941A5)!important;color:#FFF!important;border:2px solid #003399!important;border-radius:8px!important}
+[data-ov="os-mac9"] .bar,[data-ov="os-mac9"] .deck{background:#DDDDDD!important;color:#000!important;border:2px outset #FFF!important;border-radius:6px!important}
+[data-ov="os-amiga"] .bar,[data-ov="os-amiga"] .deck{background:#0055AA!important;color:#FFFFFF!important;border:2px solid #FF8800!important;border-radius:0!important}
+[data-ov="os-pipboy"] .bar,[data-ov="os-pipboy"] .deck{background:#051405!important;color:#1AFF40!important;border:2px solid #1AFF40!important;border-radius:6px!important}
+
+</style>
+<style>
+*:focus-visible {
+  outline: 3px solid var(--accent, #D4AF37) !important;
+  outline-offset: 2px !important;
+}
+.flight-hero {
+  position: relative;
+  background: #02060D;
+  border: 2px solid var(--deck-border, #C5A059);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 46px rgba(0,0,0,0.75);
+}
+#aerialViewport {
+  position: relative;
+  width: 100%;
+  height: clamp(360px, 58dvh, 640px);
+  overflow: hidden;
+  background: #04101E;
+  cursor: grab;
+  touch-action: none;
+}
+#aerialViewport:active { cursor: grabbing; }
+#flightCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.hud-top-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.hud-pill {
+  pointer-events: auto;
+  background: rgba(6, 11, 20, 0.84);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font: 700 11.5px var(--mono);
+  color: #F8FAFC;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.55);
+}
+.hud-bottom-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#radarMiniCanvas {
+  pointer-events: auto;
+  width: 170px;
+  height: 135px;
+  background: rgba(4, 10, 20, 0.9);
+  border: 1.5px solid var(--accent, #D4AF37);
+  border-radius: 10px;
+  cursor: crosshair;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.65);
+}
+.craft-card {
+  flex: 1;
+  min-width: 145px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.1s, border-color 0.15s;
+}
+.craft-card[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent, #D4AF37) 22%, var(--panel));
+  border-color: var(--accent, #D4AF37);
+  box-shadow: 0 0 16px rgba(212,175,55,0.3);
+}
+.flies-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media(min-width: 960px) {
+  .flies-grid { grid-template-columns: 1.25fr 1fr; }
+}
+.wp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.28);
+  border-left: 3px solid var(--accent);
+  font: 700 11px var(--mono);
+}
+.wp-row.wp-active {
+  background: rgba(16, 185, 129, 0.18);
+  border-left-color: #34D399;
+}
+body.passive-fs header, body.passive-fs #sharedCustPanel, body.passive-fs .flight-controls-deck {
+  display: none !important;
+}
+body.passive-fs #aerialViewport {
+  height: 96dvh !important;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- SHARED FOREFRONTHAWK.COM 6-APP TOP SUBDOMAIN BANNER, MOBILE PASTE & CUSTOMIZER -->
+  <header class="bar" style="justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <a href="https://forefronthawk.com" class="brand" style="text-decoration:none;color:var(--text)">🦅 Forefront<i>Hawk</i></a>
+      <span class="chip">HawkFlies Aerial &amp; Satellite Sim</span>
+      <nav class="seg" id="suiteNavSeg" aria-label="ForefrontHawk Subdomain Navigation">
+        <a href="https://chroma.forefronthawk.com" data-sub="https://chroma.forefronthawk.com" class="sub-link nav-pill">🎹 Chroma</a>
+        <a href="https://draw.forefronthawk.com" data-sub="https://draw.forefronthawk.com" class="sub-link nav-pill">💡 HawkDraw</a>
+        <a href="https://shine.forefronthawk.com" data-sub="https://shine.forefronthawk.com" class="sub-link nav-pill">⚡ HawkShine</a>
+        <a href="https://rgb.forefronthawk.com" data-sub="https://rgb.forefronthawk.com" class="sub-link nav-pill">🎞️ HawkRGB</a>
+        <a href="https://calls.forefronthawk.com" data-sub="https://calls.forefronthawk.com" class="sub-link nav-pill">🎙️ HawkCalls</a>
+        <a href="https://flies.forefronthawk.com" data-sub="https://flies.forefronthawk.com" class="sub-link nav-pill" aria-current="page">🦅 HawkFlies</a>
+      </nav>
+    </div>
+    <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+      <span id="chromaLiveSwatch" class="swatch-pill" style="background:#10B981;color:#080B10" title="Active Ecosystem Color">#10B981 (GRN)</span>
+      <input id="mobilePasteColorIn" type="text" placeholder="Paste #HEX" value="#10B981" style="width:88px;font:700 11.5px var(--mono);text-align:center" title="Long-press to Paste any color from another tab">
+      <button id="pasteFromClipBtn" type="button" class="chip" style="cursor:pointer;border-color:var(--accent);color:var(--accent);font-weight:700">📋 Paste Color</button>
+      <button id="openChromaPopupBtn" type="button" class="chip" style="cursor:pointer">🪟 Pair Chroma</button>
+      <button id="toggleSharedCustBtn" type="button">🛠️ UI &amp; Skin</button>
+    </div>
+  </header>
+
+  <section id="sharedCustPanel" class="bar" hidden>
+    <div class="subcard">
+      <span class="subhead">Shared forefronthawk.com UI (Travels Across All 6 Sites)</span>
+      <label>🎛️ Overlay <select id="sharedOverlaySel"></select></label>
+      <label>UI Theme
+        <select id="sharedThemeSel">
+          <option value="dark">Obsidian Dark</option>
+          <option value="light">Studio Daylight</option>
+          <option value="matrix">Matrix Digital Code</option>
+          <option value="midnight">Midnight OLED</option>
+          <option value="cyberpunk">Cyberpunk Neon</option>
+          <option value="emerald">Emerald Matrix</option>
+          <option value="crimson">Crimson Forged</option>
+          <option value="nord">Nordic Frost</option>
+          <option value="solarlight">Solarized Light</option>
+          <option value="solardark">Solarized Dark</option>
+          <option value="mocha">Catppuccin Mocha</option>
+          <option value="contrast">High-Contrast Pro</option>
+          <option value="custom_live">★ Custom Colors</option>
+        </select>
+      </label>
+      <label>Font
+        <select id="sharedFontSel">
+          <option value="system">System Sans</option>
+          <option value="calibri">Calibri</option>
+          <option value="arial">Arial</option>
+          <option value="inter">Inter Studio</option>
+          <option value="serif">Serif</option>
+          <option value="mono">JetBrains Mono</option>
+          <option value="space">Space Grotesk</option>
+          <option value="orbitron">Orbitron Cyber</option>
+          <option value="pixel">8-Bit Pixel</option>
+        </select>
+      </label>
+      <label>BG <input type="color" id="cBgIn" value="#090B10"></label>
+      <label>Panel <input type="color" id="cPanelIn" value="#121620"></label>
+      <label>Text <input type="color" id="cTextIn" value="#F8FAFC"></label>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- HERO AERIAL GOOGLE MAPS & SATELLITE PASSIVE FLIGHT VIEWPORT           -->
+  <!-- ===================================================================== -->
+  <section class="flight-hero" aria-label="Aerial Google Maps and Satellite Passive Viewer">
+    <div id="aerialViewport">
+      <canvas id="flightCanvas" width="1200" height="620"></canvas>
+
+      <!-- TOP FLIGHT TELEMETRY & PASSIVE HUD OVERLAY -->
+      <div class="hud-top-overlay">
+        <div class="hud-pill">
+          <span id="hudCraftBadge" style="color:var(--accent);font-weight:900">🦅 HAWK MODE</span>
+          <span>•</span>
+          <span id="hudRouteTitle" style="color:#34D399">Palisades Cliffs, NJ → Statue of Liberty, NY</span>
+          <span>•</span>
+          <span id="hudSpeedBadge" style="color:#38BDF8">⚡ 20× SPEED</span>
+        </div>
+
+        <div class="hud-pill">
+          <span id="hudLatLon">40.9168° N, 73.9082° W</span>
+          <span>|</span>
+          <span id="hudAltReadout" style="color:#FACC15">ALT: 450 ft AGL</span>
+          <span>|</span>
+          <span id="hudHdgReadout" style="color:#34D399">HDG: 198° SSW</span>
+          <button type="button" id="passiveFsToggleBtn" class="chip" style="cursor:pointer;background:var(--accent);color:#090C12;font-weight:800;margin-left:4px">⛶ Passive Cinema View</button>
+        </div>
+      </div>
+
+      <!-- BOTTOM PROGRESS SCRUBBER & MINI RADAR MAP OVERLAY -->
+      <div class="hud-bottom-overlay">
+        <div class="hud-pill" style="flex:1;min-width:280px;flex-wrap:wrap">
+          <button type="button" id="playPauseFlightBtn" style="background:#059669;color:#fff;font-weight:800;padding:4px 12px">⏸ Flying (20×)</button>
+          <button type="button" id="restartFlightBtn" class="chip" style="cursor:pointer">⏮ Restart at Palisades</button>
+          <label style="flex:1;display:flex;align-items:center;gap:6px;min-width:160px">
+            <span id="hudDistProg">0.0 / 17.1 mi</span>
+            <input type="range" id="flightProgressScrub" min="0" max="1000" value="0" style="flex:1">
+          </label>
+          <span id="hudNextWpLbl" style="color:#A78BFA">Next: George Washington Bridge</span>
+        </div>
+
+        <canvas id="radarMiniCanvas" width="170" height="135" title="Click anywhere on Radar Map to add or fly to a point!"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- CRAFT SELECTOR CARDS (HAWK, PRIVATE PLANE, JET, SATELLITE)            -->
+  <!-- ===================================================================== -->
+  <section class="bar flight-controls-deck" style="gap:8px">
+    <button type="button" class="craft-card" data-craft="hawk" aria-pressed="true">
+      <div style="display:flex;justify-content:space-between;width:100%"><b style="color:var(--accent);font-size:13px">🦅 1. Red-Tailed Hawk</b><span class="chip">450 ft</span></div>
+      <small style="color:var(--mute);font-size:10.5px">Low-level cliff &amp; river thermal glide • 55 mph base (1,100 mph @ 20×) • Zoom 16.2</small>
+    </button>
+    <button type="button" class="craft-card" data-craft="plane" aria-pressed="false">
+      <div style="display:flex;justify-content:space-between;width:100%"><b style="color:#38BDF8;font-size:13px">🛩️ 2. Private Plane</b><span class="chip">4,500 ft</span></div>
+      <small style="color:var(--mute);font-size:10.5px">Hudson River VFR Scenic Corridor • 185 mph base (3,700 mph @ 20×) • Zoom 14.2</small>
+    </button>
+    <button type="button" class="craft-card" data-craft="jet" aria-pressed="false">
+      <div style="display:flex;justify-content:space-between;width:100%"><b style="color:#34D399;font-size:13px">✈️ 3. Supersonic Jet</b><span class="chip">32,000 ft</span></div>
+      <small style="color:var(--mute);font-size:10.5px">High-altitude Mach 0.85 stratocruise • Pitch ladder &amp; radar HUD • Zoom 12.0</small>
+    </button>
+    <button type="button" class="craft-card" data-craft="satellite" aria-pressed="false">
+      <div style="display:flex;justify-content:space-between;width:100%"><b style="color:#A855F7;font-size:13px">🛰️ 4. LEO Satellite</b><span class="chip">250 Miles</span></div>
+      <small style="color:var(--mute);font-size:10.5px">Low-Earth Orbit Nadir Recon • Orbital grid, telemetry &amp; wide swath • Zoom 9.8</small>
+    </button>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- POINT-TO-POINT ROUTE PLANNER, PRESET ALTITUDES & MAP IMAGERY CONTROLS -->
+  <!-- ===================================================================== -->
+  <main class="flies-grid flight-controls-deck">
+
+    <!-- LEFT: POINT-TO-POINT ROUTE ASSIGNMENT & PRESET FLIGHT CORRIDORS -->
+    <section class="deck" style="gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+        <span class="subhead">1. Point-to-Point Flight Route &amp; Preset Altitudes</span>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <button type="button" id="flyPalisadesLibertyBtn" style="background:linear-gradient(135deg,#D4AF37,#059669);color:#090C12;font-weight:900">
+            🗽 Fly: Palisades → Statue of Liberty (20× Speed)
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Point A -> Point B Selector -->
+      <div class="subcard" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px">
+        <label style="flex-direction:column;align-items:flex-start;gap:3px;font:700 11px var(--mono)">
+          <span>📍 Origin (Point A)</span>
+          <select id="originPresetSel" style="width:100%;font-weight:700"></select>
+        </label>
+        <label style="flex-direction:column;align-items:flex-start;gap:3px;font:700 11px var(--mono)">
+          <span>🏁 Destination (Point B)</span>
+          <select id="destPresetSel" style="width:100%;font-weight:700"></select>
+        </label>
+        <div style="display:flex;align-items:flex-end;gap:5px">
+          <button type="button" id="applyPointToPointBtn" style="width:100%;background:#0284C7;color:#fff;font-weight:800;padding:7px">✈️ Set Route A → B</button>
+          <button type="button" id="reverseRouteBtn" title="Swap Origin & Destination" style="padding:7px 10px">⇄</button>
+        </div>
+      </div>
+
+      <!-- Active Waypoints & Per-Leg Preset Altitude Table -->
+      <div id="waypointsListBox" style="display:flex;flex-direction:column;gap:5px;max-height:210px;overflow-y:auto"></div>
+
+      <!-- Add Custom Lat/Lon/Altitude Waypoint -->
+      <div class="subcard" style="justify-content:space-between;gap:6px">
+        <input type="text" id="customWpNameIn" placeholder="Waypoint Name" value="Empire State Overflight" style="width:150px;font:700 11px var(--mono)">
+        <label style="font:700 11px var(--mono)">Lat <input type="number" id="customWpLatIn" step="0.0001" value="40.7484" style="width:82px"></label>
+        <label style="font:700 11px var(--mono)">Lon <input type="number" id="customWpLonIn" step="0.0001" value="-73.9857" style="width:86px"></label>
+        <label style="font:700 11px var(--mono)">Alt (ft) <input type="number" id="customWpAltIn" step="100" value="1800" style="width:76px"></label>
+        <button type="button" id="addCustomWpBtn" class="chip" style="cursor:pointer;border-color:#34D399;color:#34D399;font-weight:800">+ Insert Waypoint</button>
+      </div>
+    </section>
+
+    <!-- RIGHT: ALTITUDE, SPEED MULTIPLIER (1x-100x), MAP LAYER & CAMERA GIMBAL -->
+    <aside class="deck" style="gap:8px">
+      <span class="subhead">2. Speed Multiplier, Altitude Profile &amp; Aerial Map Layer</span>
+
+      <div class="subcard" style="flex-direction:column;align-items:stretch;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;font:700 11.5px var(--mono)">
+          <span>⚡ Flight Speed Multiplier</span>
+          <div class="seg" id="quickSpeedSeg">
+            <button type="button" data-spd="1" aria-pressed="false">1×</button>
+            <button type="button" data-spd="5" aria-pressed="false">5×</button>
+            <button type="button" data-spd="10" aria-pressed="false">10×</button>
+            <button type="button" data-spd="20" aria-pressed="true">20×</button>
+            <button type="button" data-spd="50" aria-pressed="false">50×</button>
+            <button type="button" data-spd="100" aria-pressed="false">100×</button>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font:700 11px var(--mono)">
+          <span>Fine Speed (1×–100×)</span>
+          <input type="range" id="speedMultRange" min="1" max="100" value="20" style="flex:1">
+          <b id="speedMultLbl" class="chip" style="color:#38BDF8">20×</b>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;font:700 11px var(--mono)">
+          <span>🏔️ Cruise Altitude (ft)</span>
+          <input type="range" id="altitudeRangeIn" min="100" max="1500000" value="450" style="flex:1">
+          <b id="altitudeValLbl" class="chip" style="color:#FACC15">450 ft</b>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;font:700 11px var(--mono)">
+          <span>🔍 Aerial Zoom Level</span>
+          <input type="range" id="zoomLevelRangeIn" min="8" max="18" step="0.1" value="15.5" style="flex:1">
+          <b id="zoomLevelValLbl" class="chip">15.5z</b>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;font:700 11px var(--mono)">
+          <span>📐 Camera Gimbal Pitch (°)</span>
+          <input type="range" id="camPitchRangeIn" min="0" max="65" value="42" style="flex:1">
+          <b id="camPitchValLbl" class="chip">42° Tilt</b>
+        </div>
+      </div>
+
+      <div class="subcard" style="flex-direction:column;align-items:stretch;gap:7px">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+          <span class="subhead">🌍 Google Aerial &amp; Satellite Imagery Layer</span>
+          <select id="mapLayerStyleSel" style="font-weight:800;border-color:var(--accent)">
+            <option value="google_hybrid" selected>🛰️ Google Maps Hybrid (Satellite + Labels &amp; Roads)</option>
+            <option value="google_sat">🌎 Google Pure Satellite Imagery</option>
+            <option value="google_terrain">⛰️ Google Terrain &amp; Elevation Shaded</option>
+            <option value="esri_sat">🔭 Esri World High-Res Aerial Imagery</option>
+            <option value="flir_night">🟢 Night-Vision FLIR Thermal Recon</option>
+            <option value="radar_sar">🔵 Synthetic Aperture Radar (SAR Cyan)</option>
+          </select>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font:700 11px var(--mono)">
+          <label><input type="checkbox" id="autoAltProfileChk" checked> 📈 Follow Waypoint Preset Altitudes</label>
+          <label><input type="checkbox" id="show3dBuildingsChk" checked> 🏙️ 3D NYC Skyline &amp; Landmarks</label>
+          <label><input type="checkbox" id="showHudOverlayChk" checked> 🎯 Avionics / Hawk HUD</label>
+          <label><input type="checkbox" id="ambientFlightAudioChk"> 🔊 Ambient Flight Sound</label>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+</div>
+
+<script>
+var FONTS={
+system:'system-ui,-apple-system,"Segoe UI",Roboto,sans-serif',
+calibri:'Calibri,"Segoe UI",Candara,sans-serif',
+arial:'Arial,"Helvetica Neue",Helvetica,sans-serif',
+inter:'"Inter",system-ui,sans-serif',
+serif:'Georgia,"Times New Roman",Times,serif',
+mono:'"JetBrains Mono",Consolas,ui-monospace,monospace',
+space:'"Space Grotesk",system-ui,sans-serif',
+orbitron:'"Orbitron",system-ui,sans-serif',
+pixel:'"Press Start 2P",ui-monospace,monospace'
+};
+var ACC={sky:"#38BDF8",gold:"#D4AF37",green:"#34D399",amber:"#FBBF24",rose:"#FB7185",violet:"#A78BFA"};
+var OVERLAY_LIST=[
+["ui-sophisticated","★ Sophisticated (ForefrontHawk)"],
+["ui-tech","★ Tech (CAD Telemetry)"],
+["ui-futuristic","★ Futuristic (Holo-Glass)"],
+["none","0. Classic UI"],["mech-ibm","1. IBM Model M"],["mech-c64","2. Commodore 64"],
+["mech-cyber","3. Cyber Neon"],["mech-typewriter","4. Typewriter"],["mech-arcade","5. Arcade Sanwa"],
+["plug-vst","6. VST Rack"],["plug-eurorack","7. Eurorack"],["plug-mpc","8. Akai MPC"],
+["plug-dmx","9. GrandMA DMX"],["plug-davinci","10. DaVinci Panel"],["app-winamp","11. Winamp 2.x"],
+["app-ps3","12. Photoshop 3"],["app-lotus","13. Lotus 1-2-3"],["app-soundforge","14. FastTracker"],
+["app-hypercard","15. HyperCard"],["os-win95","16. Windows 95"],["os-winxp","17. Windows XP"],
+["os-mac9","18. Mac OS 9"],["os-amiga","19. AmigaOS 1.3"],["os-pipboy","20. CRT Pip-Boy"]
+];
+var UI_STATE={
+mode:"dark",overlay:"ui-sophisticated",font:"system",accent:"gold",
+cBg:"#090B10",cPanel:"#121620",cText:"#F8FAFC",cPlate:"#181D2A",
+activeColor:"#10B981",activeLabel:"GRN"
+};
+var suiteChan=null,chromaChan=null;
+try{
+if(typeof BroadcastChannel!=="undefined"){
+suiteChan=new BroadcastChannel("forefronthawk_suite_bus");
+chromaChan=new BroadcastChannel("hawkchroma_2x10_bus");
+}
+}catch(e){}
+var chromaPopupWin=null;
+function readRootDomainCookie(){
+try{
+var m=document.cookie.match(/(?:^|;\s*)ffh_ui=([^;]+)/);
+if(m&&m[1])return JSON.parse(decodeURIComponent(m[1]));
+}catch(e){}
+return null;
+}
+function writeRootDomainCookie(obj){
+try{
+var val=encodeURIComponent(JSON.stringify(obj));
+document.cookie="ffh_ui="+val+"; domain=.forefronthawk.com; path=/; max-age=31536000; SameSite=Lax";
+document.cookie="ffh_ui="+val+"; path=/; max-age=31536000; SameSite=Lax";
+}catch(e){}
+}
+function readUrlHashState(){
+try{
+if(location.hash&&location.hash.indexOf("ffh=")>-1){
+var part=location.hash.split("ffh=")[1].split("&")[0];
+return JSON.parse(decodeURIComponent(part));
+}
+}catch(e){}
+return null;
+}
+function updateSubdomainBannerLinks(){
+try{
+writeRootDomainCookie(UI_STATE);
+document.querySelectorAll("a.sub-link").forEach(function(a){
+var base=a.dataset.sub||a.getAttribute("href").split("#")[0];
+a.href=base;
+a.onclick=function(){writeRootDomainCookie(UI_STATE)};
+});
+}catch(e){}
+}
+function loadSharedUi(){
+try{
+var fromHash=readUrlHashState();
+var fromCookie=readRootDomainCookie();
+var fromLs=JSON.parse(localStorage.getItem("forefronthawk_shared_ui")||localStorage.getItem("hawkchroma_v4")||"null");
+var sv=fromHash||fromCookie||fromLs;
+if(sv){
+if(sv.mode)UI_STATE.mode=sv.mode;
+if(sv.overlay)UI_STATE.overlay=sv.overlay;
+if(sv.font)UI_STATE.font=sv.font;
+if(sv.accent)UI_STATE.accent=sv.accent;
+if(sv.cBg)UI_STATE.cBg=sv.cBg;
+if(sv.cPanel)UI_STATE.cPanel=sv.cPanel;
+if(sv.cText)UI_STATE.cText=sv.cText;
+if(sv.cPlate)UI_STATE.cPlate=sv.cPlate;
+if(sv.activeColor||sv.shown||sv.hex)UI_STATE.activeColor=sv.activeColor||sv.shown||sv.hex;
+if(fromHash)writeRootDomainCookie(UI_STATE);
+}
+}catch(e){}
+applySharedUiToDom();
+updateSubdomainBannerLinks();
+}
+function saveAndBroadcastUi(broadcast){
+try{
+localStorage.setItem("forefronthawk_shared_ui",JSON.stringify(UI_STATE));
+writeRootDomainCookie(UI_STATE);
+updateSubdomainBannerLinks();
+var hc=JSON.parse(localStorage.getItem("hawkchroma_v4")||"{}");
+hc.mode=UI_STATE.mode;hc.overlay=UI_STATE.overlay;hc.font=UI_STATE.font;
+hc.cBg=UI_STATE.cBg;hc.cPanel=UI_STATE.cPanel;hc.cText=UI_STATE.cText;hc.cPlate=UI_STATE.cPlate;
+hc.shown=UI_STATE.activeColor;hc.hex=UI_STATE.activeColor;
+localStorage.setItem("hawkchroma_v4",JSON.stringify(hc));
+}catch(e){}
+applySharedUiToDom();
+if(broadcast){
+if(suiteChan){try{suiteChan.postMessage({type:"FFH_UI_SYNC",ui:UI_STATE})}catch(e){}}
+if(window.opener){try{window.opener.postMessage({type:"FFH_UI_SYNC",ui:UI_STATE},"*")}catch(e){}}
+if(chromaPopupWin&&!chromaPopupWin.closed){try{chromaPopupWin.postMessage({type:"FFH_UI_SYNC",ui:UI_STATE},"*")}catch(e){}}
+}
+}
+function applySharedUiToDom(){
+var r=document.documentElement;
+r.setAttribute("data-theme",UI_STATE.mode||"dark");
+if(UI_STATE.overlay&&UI_STATE.overlay!=="none")r.setAttribute("data-ov",UI_STATE.overlay);
+else r.removeAttribute("data-ov");
+r.style.setProperty("--font",FONTS[UI_STATE.font]||FONTS.system);
+r.style.setProperty("--accent",ACC[UI_STATE.accent]||"#D4AF37");
+if(UI_STATE.mode==="custom_live"){
+r.style.setProperty("--bg",UI_STATE.cBg);
+r.style.setProperty("--panel",UI_STATE.cPanel);
+r.style.setProperty("--text",UI_STATE.cText);
+r.style.setProperty("--plate",UI_STATE.cPlate);
+}else{
+r.style.removeProperty("--bg");r.style.removeProperty("--panel");
+r.style.removeProperty("--text");r.style.removeProperty("--plate");
+}
+r.style.setProperty("--active-c",UI_STATE.activeColor);
+var sw=document.getElementById("chromaLiveSwatch");
+if(sw){
+sw.style.background=UI_STATE.activeColor;
+sw.textContent=UI_STATE.activeColor+" ("+UI_STATE.activeLabel+")";
+}
+if(document.getElementById("sharedOverlaySel"))document.getElementById("sharedOverlaySel").value=UI_STATE.overlay;
+if(document.getElementById("sharedThemeSel"))document.getElementById("sharedThemeSel").value=UI_STATE.mode;
+if(document.getElementById("sharedFontSel"))document.getElementById("sharedFontSel").value=UI_STATE.font;
+if(typeof onChromaColorReceived==="function")onChromaColorReceived(UI_STATE.activeColor,UI_STATE.activeLabel);
+}
+function initSharedCustomizerBar(){
+var popBtn=document.getElementById("openChromaPopupBtn");
+if(popBtn){
+popBtn.onclick=function(){
+var payload=encodeURIComponent(JSON.stringify(UI_STATE));
+writeRootDomainCookie(UI_STATE);
+chromaPopupWin=window.open("https://chroma.forefronthawk.com","HawkChromaCompanion","width=520,height=760");
+};
+}
+window.addEventListener("message",function(e){
+if(!e.data)return;
+if(e.data.type==="FFH_UI_SYNC"&&e.data.ui){
+Object.assign(UI_STATE,e.data.ui);
+saveAndBroadcastUi(false);
+}else if(e.data.hex){
+UI_STATE.activeColor=e.data.hex.toUpperCase();
+UI_STATE.activeLabel=e.data.label||"CHROMA";
+saveAndBroadcastUi(false);
+}
+});
+var lastCookieJson="";
+setInterval(function(){
+var ck=readRootDomainCookie();
+if(ck){
+var j=JSON.stringify(ck);
+if(j!==lastCookieJson){
+lastCookieJson=j;
+Object.assign(UI_STATE,ck);
+applySharedUiToDom();
+}
+}
+},800);
+var ovSel=document.getElementById("sharedOverlaySel");
+if(ovSel&&!ovSel.options.length){
+OVERLAY_LIST.forEach(function(o){
+var op=document.createElement("option");op.value=o[0];op.textContent=o[1];ovSel.appendChild(op);
+});
+ovSel.onchange=function(){UI_STATE.overlay=this.value;saveAndBroadcastUi(true)};
+}
+var thSel=document.getElementById("sharedThemeSel");
+if(thSel){thSel.onchange=function(){UI_STATE.mode=this.value;saveAndBroadcastUi(true)}}
+var fnSel=document.getElementById("sharedFontSel");
+if(fnSel){fnSel.onchange=function(){UI_STATE.font=this.value;saveAndBroadcastUi(true)}}
+var custBtn=document.getElementById("toggleSharedCustBtn");
+if(custBtn){
+custBtn.onclick=function(){
+var p=document.getElementById("sharedCustPanel");
+if(p)p.hidden=!p.hidden;
+};
+}
+["cBgIn","cPanelIn","cTextIn"].forEach(function(id){
+var el=document.getElementById(id);
+if(el)el.oninput=function(){
+UI_STATE.cBg=document.getElementById("cBgIn").value;
+UI_STATE.cPanel=document.getElementById("cPanelIn").value;
+UI_STATE.cText=document.getElementById("cTextIn").value;
+UI_STATE.mode="custom_live";
+saveAndBroadcastUi(true);
+};
+});
+}
+window.addEventListener("focus",function(){if(typeof loadSharedUi==="function")loadSharedUi()});
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&typeof loadSharedUi==="function")loadSharedUi()});
+window.addEventListener("storage",function(e){
+if(e.key==="forefronthawk_shared_ui"||e.key==="hawkchroma_v4")loadSharedUi();
+});
+if(suiteChan){
+suiteChan.onmessage=function(e){
+if(e.data&&e.data.ui){
+Object.assign(UI_STATE,e.data.ui);
+applySharedUiToDom();
+}
+};
+}
+if(chromaChan){
+chromaChan.onmessage=function(e){
+if(e.data&&e.data.hex){
+UI_STATE.activeColor=e.data.hex.toUpperCase();
+UI_STATE.activeLabel=e.data.label||"CHROMA";
+saveAndBroadcastUi(false);
+}
+};
+}
+var stopCycleIdx = 0;
+
+
+// ============================================================================
+// HAWKFLIES AERIAL GOOGLE MAPS & SATELLITE PASSIVE FLIGHT ENGINE
+// ============================================================================
+
+var LANDMARKS = [
+  { id:"palisades",  name:"Palisades Cliffs (State Line Lookout, NJ)", lat:40.9168, lon:-73.9082, alt:520,   desc:"500ft Sheer Diabase Cliffs" },
+  { id:"gwb",        name:"George Washington Bridge (Fort Lee / NYC)", lat:40.8517, lon:-73.9527, alt:650,   desc:"Double-Deck Suspension Span" },
+  { id:"intrepid",   name:"Midtown West / USS Intrepid Pier 86, NY",   lat:40.7644, lon:-74.0007, alt:800,   desc:"Hudson River Midtown Corridor" },
+  { id:"wtc",        name:"Lower Manhattan / One World Trade Center",  lat:40.7127, lon:-74.0134, alt:950,   desc:"1,776ft Freedom Tower & Battery" },
+  { id:"ellis",      name:"Ellis Island National Historic Monument",   lat:40.6995, lon:-74.0396, alt:500,   desc:"Historic NY Harbor Island" },
+  { id:"liberty",    name:"Statue of Liberty (Liberty Island, NY)",    lat:40.6892, lon:-74.0445, alt:350,   desc:"305ft Copper Neoclassical Collosus" },
+  { id:"centralpk",  name:"Central Park Reservoir & Belvedere, NYC",   lat:40.7829, lon:-73.9654, alt:1100,  desc:"843-Acre Manhattan Oasis" },
+  { id:"empire",     name:"Empire State Building (Midtown NYC)",       lat:40.7484, lon:-73.9857, alt:1650,  desc:"1,454ft Art Deco Spire" },
+  { id:"brooklynbr", name:"Brooklyn Bridge & East River, NYC",         lat:40.7061, lon:-73.9969, alt:600,   desc:"1883 Gothic Stone Suspension" },
+  { id:"verrazzano", name:"Verrazzano-Narrows Bridge (NY Harbor)",     lat:40.6066, lon:-74.0447, alt:750,   desc:"Gateway to Atlantic Ocean" },
+  { id:"goldengate", name:"Golden Gate Bridge (San Francisco, CA)",    lat:37.8199, lon:-122.4783,alt:900,   desc:"San Francisco Bay Strait" },
+  { id:"grandcanyon",name:"Grand Canyon Mather Point (Arizona)",       lat:36.0605, lon:-112.1092,alt:4500,  desc:"Colorado River Gorge" }
+];
+
+var CRAFT_PROFILES = {
+  hawk:      { name:"🦅 RED-TAILED HAWK",  altFt:450,     baseMph:55,    zoom:15.6, pitch:46, bankFactor:1.4, color:"#D4AF37" },
+  plane:     { name:"🛩️ PRIVATE PLANE",    altFt:4500,    baseMph:185,   zoom:14.1, pitch:36, bankFactor:0.9, color:"#38BDF8" },
+  jet:       { name:"✈️ SUPERSONIC JET",   altFt:32000,   baseMph:620,   zoom:12.2, pitch:26, bankFactor:1.8, color:"#34D399" },
+  satellite: { name:"🛰️ LEO SATELLITE",    altFt:1320000, baseMph:17500, zoom:10.4, pitch:0,  bankFactor:0.0, color:"#A855F7" }
+};
+
+var FLIGHT = {
+  craft: "hawk",
+  playing: true,
+  speedMult: 20, // Pre-set to 20x speed for Palisades -> Statue of Liberty test flight!
+  progress: 0.0, // 0.0 .. 1.0 along full waypoint route
+  lat: 40.9168,
+  lon: -73.9082,
+  altFt: 450,
+  headingDeg: 198,
+  bankDeg: 0,
+  zoom: 15.5,
+  pitchDeg: 42,
+  mapStyle: "google_hybrid",
+  followWpAlt: true,
+  show3dBuildings: true,
+  showHud: true,
+  route: [
+    { name:"1. Palisades Cliffs (State Line Lookout, NJ)", lat:40.9168, lon:-73.9082, alt:520 },
+    { name:"2. George Washington Bridge (Hudson Span)",    lat:40.8517, lon:-73.9527, alt:620 },
+    { name:"3. Midtown West / USS Intrepid Pier 86",       lat:40.7644, lon:-74.0007, alt:550 },
+    { name:"4. Lower Manhattan / One World Trade",         lat:40.7127, lon:-74.0134, alt:500 },
+    { name:"5. Ellis Island National Monument",            lat:40.6995, lon:-74.0396, alt:420 },
+    { name:"6. Statue of Liberty (Liberty Island, NY)",    lat:40.6892, lon:-74.0445, alt:320 }
+  ]
+};
+
+// Haversine Distance (miles) & Initial Bearing (degrees)
+function haversineMiles(lat1, lon1, lat2, lon2){
+  var R = 3958.8;
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLon = (lon2 - lon1) * Math.PI / 180;
+  var a = Math.sin(dLat/2)*Math.sin(dLat/2) +
+          Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function computeBearing(lat1, lon1, lat2, lon2){
+  var phi1 = lat1 * Math.PI / 180, phi2 = lat2 * Math.PI / 180;
+  var dLam = (lon2 - lon1) * Math.PI / 180;
+  var y = Math.sin(dLam) * Math.cos(phi2);
+  var x = Math.cos(phi1)*Math.sin(phi2) - Math.sin(phi1)*Math.cos(phi2)*Math.cos(dLam);
+  return ((Math.atan2(y, x) * 180 / Math.PI) + 360) % 360;
+}
+
+function computeRouteMetrics(){
+  var segs = [], totalMi = 0;
+  for(var i=0; i<FLIGHT.route.length - 1; i++){
+    var a = FLIGHT.route[i], b = FLIGHT.route[i+1];
+    var d = Math.max(0.05, haversineMiles(a.lat, a.lon, b.lat, b.lon));
+    var brg = computeBearing(a.lat, a.lon, b.lat, b.lon);
+    segs.push({ a:a, b:b, distMi:d, startMi:totalMi, bearing:brg, idx:i });
+    totalMi += d;
+  }
+  return { segs: segs, totalMi: Math.max(0.1, totalMi) };
+}
+
+// Slippy Map Tile Cache (Google Hybrid/Satellite/Terrain + Esri World Imagery)
+var tileCache = {};
+function getSlippyTileUrl(style, z, x, y){
+  var maxTile = Math.pow(2, z);
+  x = ((x % maxTile) + maxTile) % maxTile;
+  if(y < 0 || y >= maxTile) return null;
+  if(style === "google_sat")     return "https://mt1.google.com/vt/lyrs=s&x=" + x + "&y=" + y + "&z=" + z;
+  if(style === "google_terrain") return "https://mt1.google.com/vt/lyrs=p&x=" + x + "&y=" + y + "&z=" + z;
+  if(style === "esri_sat")       return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/" + z + "/" + y + "/" + x;
+  return "https://mt1.google.com/vt/lyrs=y&x=" + x + "&y=" + y + "&z=" + z; // google_hybrid default
+}
+
+function fetchTileImage(style, z, x, y){
+  var url = getSlippyTileUrl(style, z, x, y);
+  if(!url) return null;
+  if(tileCache[url]) return tileCache[url];
+  var img = new Image();
+  img.crossOrigin = "anonymous";
+  var entry = { img: img, loaded: false, failed: false };
+  img.onload = function(){ entry.loaded = true; };
+  img.onerror = function(){ entry.failed = true; };
+  img.src = url;
+  tileCache[url] = entry;
+  return entry;
+}
+
+function lonToTileX(lon, z){
+  return ((lon + 180) / 360) * Math.pow(2, z);
+}
+function latToTileY(lat, z){
+  var rad = lat * Math.PI / 180;
+  return (1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2 * Math.pow(2, z);
+}
+
+// Real-World NYC / Hudson River / Palisades / Manhattan / Liberty Island High-Detail Geographic Polygons & 3D Landmarks
+var HUDSON_WEST_SHORE = [
+  [40.950,-73.902],[40.9168,-73.9082],[40.885,-73.928],[40.8517,-73.9565],
+  [40.810,-73.982],[40.765,-74.012],[40.735,-74.028],[40.705,-74.036],[40.670,-74.065],[40.670,-74.150],[40.950,-74.150]
+];
+var MANHATTAN_POLY = [
+  [40.878,-73.927],[40.8517,-73.942],[40.800,-73.972],[40.764,-73.999],
+  [40.712,-74.018],[40.701,-74.015],[40.708,-73.998],[40.745,-73.971],[40.795,-73.929],[40.870,-73.910]
+];
+var NYC_3D_STRUCTURES = [
+  { name:"Palisades 500ft Cliffs", lat:40.9168, lon:-73.9082, h:520, color:"#10B981", kind:"cliff" },
+  { name:"George Washington Bridge", lat:40.8517, lon:-73.9527, lat2:40.8505, lon2:-73.9425, h:604, color:"#94A3B8", kind:"bridge" },
+  { name:"Central Park", lat:40.7829, lon:-73.9654, h:60, color:"#22C55E", kind:"park" },
+  { name:"USS Intrepid CV-11", lat:40.7644, lon:-74.0007, h:180, color:"#64748B", kind:"ship" },
+  { name:"Empire State Bldg", lat:40.7484, lon:-73.9857, h:1454, color:"#D4AF37", kind:"tower" },
+  { name:"Hudson Yards Edge", lat:40.7536, lon:-74.0018, h:1296, color:"#38BDF8", kind:"tower" },
+  { name:"One World Trade Ctr", lat:40.7127, lon:-74.0134, h:1776, color:"#00F5D4", kind:"tower" },
+  { name:"Ellis Island", lat:40.6995, lon:-74.0396, h:140, color:"#F59E0B", kind:"island" },
+  { name:"Statue of Liberty", lat:40.6892, lon:-74.0445, h:305, color:"#34D399", kind:"statue" }
+];
+
+function onChromaColorReceived(hex, label){
+  CRAFT_PROFILES[FLIGHT.craft].color = hex;
+}
+
+function renderWaypointsList(){
+  var box = document.getElementById("waypointsListBox"); if(!box) return;
+  box.innerHTML = "";
+  var metrics = computeRouteMetrics();
+  var curDist = FLIGHT.progress * metrics.totalMi;
+
+  FLIGHT.route.forEach(function(wp, idx){
+    var isCurrent = false;
+    if(idx < metrics.segs.length){
+      var sg = metrics.segs[idx];
+      if(curDist >= sg.startMi && curDist <= sg.startMi + sg.distMi) isCurrent = true;
+    }
+    var div = document.createElement("div");
+    div.className = "wp-row" + (isCurrent ? " wp-active" : "");
+    div.innerHTML =
+      '<span>' + (idx === 0 ? "🛫 " : (idx === FLIGHT.route.length - 1 ? "🗽 " : "📍 ")) + '<b>' + wp.name + '</b></span>' +
+      '<div style="display:flex;align-items:center;gap:6px">' +
+        '<span style="color:#94A3B8">' + wp.lat.toFixed(4) + '°, ' + wp.lon.toFixed(4) + '°</span>' +
+        '<span class="chip" style="color:#FACC15">' + wp.alt + ' ft</span>' +
+        '<button type="button" class="chip jump-wp" style="cursor:pointer;padding:2px 6px">Fly Here</button>' +
+        (FLIGHT.route.length > 2 ? '<button type="button" class="chip del-wp" style="cursor:pointer;padding:2px 6px;color:#FCA5A5">✕</button>' : '') +
+      '</div>';
+    div.querySelector(".jump-wp").onclick = function(){
+      if(idx === 0) FLIGHT.progress = 0;
+      else if(idx === FLIGHT.route.length - 1) FLIGHT.progress = 0.98;
+      else{
+        var cum = 0;
+        for(var k=0; k<idx; k++) cum += metrics.segs[k].distMi;
+        FLIGHT.progress = cum / metrics.totalMi;
+      }
+      updateFlightPositionFromProgress();
+    };
+    var delBtn = div.querySelector(".del-wp");
+    if(delBtn) delBtn.onclick = function(){
+      FLIGHT.route.splice(idx, 1);
+      renderWaypointsList();
+    };
+    box.appendChild(div);
+  });
+}
+
+function updateFlightPositionFromProgress(){
+  var metrics = computeRouteMetrics();
+  var targetMi = FLIGHT.progress * metrics.totalMi;
+  var activeSeg = metrics.segs[0];
+  for(var i=0; i<metrics.segs.length; i++){
+    var s = metrics.segs[i];
+    if(targetMi >= s.startMi && targetMi <= s.startMi + s.distMi){
+      activeSeg = s; break;
+    }
+  }
+  if(!activeSeg) return;
+  var localT = Math.max(0, Math.min(1, (targetMi - activeSeg.startMi) / activeSeg.distMi));
+  FLIGHT.lat = activeSeg.a.lat + (activeSeg.b.lat - activeSeg.a.lat) * localT;
+  FLIGHT.lon = activeSeg.a.lon + (activeSeg.b.lon - activeSeg.a.lon) * localT;
+
+  var prevHdg = FLIGHT.headingDeg;
+  FLIGHT.headingDeg = activeSeg.bearing;
+  var hdgDiff = ((FLIGHT.headingDeg - prevHdg + 540) % 360) - 180;
+  var cp = CRAFT_PROFILES[FLIGHT.craft];
+  FLIGHT.bankDeg = Math.max(-35, Math.min(35, hdgDiff * 2.5 * cp.bankFactor + Math.sin(performance.now() * 0.002) * (FLIGHT.craft === "hawk" ? 6 : 1.5)));
+
+  if(FLIGHT.followWpAlt && FLIGHT.craft !== "satellite" && FLIGHT.craft !== "jet"){
+    var interpAlt = Math.round(activeSeg.a.alt + (activeSeg.b.alt - activeSeg.a.alt) * localT);
+    FLIGHT.altFt = FLIGHT.craft === "plane" ? Math.max(1500, interpAlt * 4) : interpAlt;
+    document.getElementById("altitudeRangeIn").value = FLIGHT.altFt;
+    document.getElementById("altitudeValLbl").textContent = FLIGHT.altFt.toLocaleString() + " ft";
+  }
+
+  // Update HUD Readouts
+  document.getElementById("hudLatLon").textContent = Math.abs(FLIGHT.lat).toFixed(4) + "° N, " + Math.abs(FLIGHT.lon).toFixed(4) + "° W";
+  var altStr = FLIGHT.altFt >= 52800 ? ((FLIGHT.altFt / 5280).toFixed(0) + " Miles LEO") : (FLIGHT.altFt.toLocaleString() + " ft");
+  document.getElementById("hudAltReadout").textContent = "ALT: " + altStr;
+  var dirs = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+  var dirStr = dirs[Math.round(FLIGHT.headingDeg / 22.5) % 16];
+  document.getElementById("hudHdgReadout").textContent = "HDG: " + Math.round(FLIGHT.headingDeg) + "° " + dirStr;
+  document.getElementById("hudDistProg").textContent = targetMi.toFixed(1) + " / " + metrics.totalMi.toFixed(1) + " mi";
+  document.getElementById("flightProgressScrub").value = Math.round(FLIGHT.progress * 1000);
+  document.getElementById("hudNextWpLbl").textContent = "Next: " + activeSeg.b.name.replace(/^\d+\.\s*/, "");
+}
+
+// Main Aerial Google Maps Tile + 3D Vector Skyline + Avionics HUD Renderer
+var flightCv = document.getElementById("flightCanvas"), fCtx = flightCv.getContext("2d");
+var radarCv = document.getElementById("radarMiniCanvas"), rCtx = radarCv.getContext("2d");
+var lastFrameMs = performance.now();
+
+function renderAerialFlightFrame(nowMs){
+  var dtSec = Math.min(0.1, (nowMs - lastFrameMs) / 1000);
+  lastFrameMs = nowMs;
+
+  if(FLIGHT.playing){
+    var metrics = computeRouteMetrics();
+    var cp = CRAFT_PROFILES[FLIGHT.craft];
+    // Effective ground speed in miles per second:
+    // At 20x speed, Hawk (55 mph * 20 = 1,100 mph = 0.305 mi/s) completes the 17.1-mile Palisades->Liberty flight in ~55 seconds!
+    var effectiveMph = (FLIGHT.craft === "satellite" ? 180 : cp.baseMph) * FLIGHT.speedMult;
+    var milesThisFrame = (effectiveMph / 3600) * dtSec;
+    FLIGHT.progress += milesThisFrame / metrics.totalMi;
+    if(FLIGHT.progress >= 1.0){
+      FLIGHT.progress = 0.0; // Loop back cleanly for continuous passive viewing
+    }
+    updateFlightPositionFromProgress();
+  }
+
+  var w = flightCv.width, h = flightCv.height;
+  fCtx.save();
+
+  // 1. Sky / Horizon Gradient when Camera Pitch > 25°
+  fCtx.fillStyle = "#041224";
+  fCtx.fillRect(0, 0, w, h);
+
+  var intZ = Math.max(8, Math.min(18, Math.floor(FLIGHT.zoom)));
+  var fracScale = Math.pow(2, FLIGHT.zoom - intZ);
+  var centerTileX = lonToTileX(FLIGHT.lon, intZ);
+  var centerTileY = latToTileY(FLIGHT.lat, intZ);
+
+  // Apply Camera Gimbal Pitch, Heading Rotation & Wing Banking
+  fCtx.save();
+  fCtx.translate(w / 2, h * 0.56);
+  var pitchCompress = Math.cos((FLIGHT.pitchDeg * 0.68) * Math.PI / 180);
+  fCtx.rotate((-FLIGHT.bankDeg * Math.PI) / 180);
+  fCtx.scale(fracScale, fracScale * Math.max(0.42, pitchCompress));
+  fCtx.rotate(((180 - FLIGHT.headingDeg) * Math.PI) / 180); // Rotate world so forward flight direction is UP!
+
+  // 2A. Draw High-Detail Procedural Geographic Vector Base (Hudson River, Palisades Cliffs, Manhattan Grid, Liberty Island)
+  function geoToLocalPx(lat, lon){
+    var tx = lonToTileX(lon, intZ);
+    var ty = latToTileY(lat, intZ);
+    return { x: (tx - centerTileX) * 256, y: (ty - centerTileY) * 256 };
+  }
+
+  // Deep Hudson River & NY Harbor Water Shimmer
+  fCtx.fillStyle = "#06213E";
+  fCtx.fillRect(-1600, -1600, 3200, 3200);
+
+  // Draw NJ Palisades West Shore Polygon
+  fCtx.fillStyle = "#0F291E";
+  fCtx.strokeStyle = "#10B981";
+  fCtx.lineWidth = 2.5;
+  fCtx.beginPath();
+  HUDSON_WEST_SHORE.forEach(function(pt, i){
+    var p = geoToLocalPx(pt[0], pt[1]);
+    if(i === 0) fCtx.moveTo(p.x, p.y); else fCtx.lineTo(p.x, p.y);
+  });
+  fCtx.closePath(); fCtx.fill(); fCtx.stroke();
+
+  // Draw Manhattan Island Polygon
+  fCtx.fillStyle = "#162032";
+  fCtx.strokeStyle = "#38BDF8";
+  fCtx.lineWidth = 2;
+  fCtx.beginPath();
+  MANHATTAN_POLY.forEach(function(pt, i){
+    var p = geoToLocalPx(pt[0], pt[1]);
+    if(i === 0) fCtx.moveTo(p.x, p.y); else fCtx.lineTo(p.x, p.y);
+  });
+  fCtx.closePath(); fCtx.fill(); fCtx.stroke();
+
+  // 2B. Overlay Live Google Aerial / Satellite Slippy Map Tiles (5x5 grid around aircraft nadir)
+  var baseTx = Math.floor(centerTileX);
+  var baseTy = Math.floor(centerTileY);
+  for(var dy = -2; dy <= 2; dy++){
+    for(var dx = -2; dx <= 2; dx++){
+      var tx = baseTx + dx, ty = baseTy + dy;
+      var tEntry = fetchTileImage(FLIGHT.mapStyle, intZ, tx, ty);
+      if(tEntry && tEntry.loaded){
+        var px = (tx - centerTileX) * 256;
+        var py = (ty - centerTileY) * 256;
+        try{ fCtx.drawImage(tEntry.img, px, py, 256.5, 256.5); }catch(e){}
+      }
+    }
+  }
+
+  // 2C. Draw Flight Corridor Path (Glowing Gold & Emerald Route Ribbon + Waypoint Beacons)
+  fCtx.strokeStyle = "rgba(212, 175, 55, 0.88)";
+  fCtx.lineWidth = 5 / fracScale;
+  fCtx.setLineDash([12 / fracScale, 8 / fracScale]);
+  fCtx.beginPath();
+  FLIGHT.route.forEach(function(wp, i){
+    var p = geoToLocalPx(wp.lat, wp.lon);
+    if(i === 0) fCtx.moveTo(p.x, p.y); else fCtx.lineTo(p.x, p.y);
+  });
+  fCtx.stroke();
+  fCtx.setLineDash([]);
+
+  // 2D. Draw 3D Landmarks (Palisades Cliffs, George Washington Bridge, Manhattan Skyscrapers, Ellis Island, Statue of Liberty)
+  if(FLIGHT.show3dBuildings){
+    NYC_3D_STRUCTURES.forEach(function(st){
+      var p = geoToLocalPx(st.lat, st.lon);
+      if(st.kind === "bridge" && st.lat2){
+        var p2 = geoToLocalPx(st.lat2, st.lon2);
+        fCtx.strokeStyle = "#E2E8F0";
+        fCtx.lineWidth = 6 / fracScale;
+        fCtx.beginPath(); fCtx.moveTo(p.x, p.y); fCtx.lineTo(p2.x, p2.y); fCtx.stroke();
+      }
+      fCtx.fillStyle = st.color;
+      fCtx.beginPath();
+      fCtx.arc(p.x, p.y, (st.kind === "statue" ? 12 : 8) / fracScale, 0, Math.PI * 2);
+      fCtx.fill();
+      fCtx.strokeStyle = "#FFFFFF";
+      fCtx.lineWidth = 1.5 / fracScale;
+      fCtx.stroke();
+
+      fCtx.save();
+      fCtx.translate(p.x, p.y);
+      fCtx.rotate(((FLIGHT.headingDeg - 180) * Math.PI) / 180);
+      fCtx.scale(1 / fracScale, 1 / fracScale);
+      fCtx.fillStyle = "rgba(6, 10, 18, 0.85)";
+      fCtx.fillRect(-58, -28, 116, 16);
+      fCtx.fillStyle = st.color;
+      fCtx.font = "800 10px monospace";
+      fCtx.textAlign = "center";
+      fCtx.fillText(st.name, 0, -16);
+      fCtx.restore();
+    });
+  }
+
+  fCtx.restore(); // End world-space transform
+
+  // 3. Optical Filter Modes (Night Vision FLIR / SAR Radar)
+  if(FLIGHT.mapStyle === "flir_night"){
+    fCtx.fillStyle = "rgba(0, 255, 65, 0.16)";
+    fCtx.fillRect(0, 0, w, h);
+  }else if(FLIGHT.mapStyle === "radar_sar"){
+    fCtx.fillStyle = "rgba(0, 240, 255, 0.16)";
+    fCtx.fillRect(0, 0, w, h);
+  }
+
+  // 4. Atmospheric Sky Horizon Glow at Top when Pitched
+  if(FLIGHT.pitchDeg > 15){
+    var skyH = Math.round((FLIGHT.pitchDeg / 65) * (h * 0.28));
+    var skyG = fCtx.createLinearGradient(0, 0, 0, skyH);
+    skyG.addColorStop(0, "rgba(4, 12, 28, 0.92)");
+    skyG.addColorStop(0.65, "rgba(14, 42, 84, 0.45)");
+    skyG.addColorStop(1, "transparent");
+    fCtx.fillStyle = skyG;
+    fCtx.fillRect(0, 0, w, skyH);
+  }
+
+  // 5. Render Craft-Specific Avionics / Hawk-Eye / Satellite HUD Overlay
+  if(FLIGHT.showHud){
+    renderCraftAvionicsHud(fCtx, w, h, nowMs);
+  }
+
+  fCtx.restore();
+
+  // 6. Render Bottom-Right Overview Radar Map
+  renderRadarMiniMap();
+
+  requestAnimationFrame(renderAerialFlightFrame);
+}
+
+function renderCraftAvionicsHud(ctx, w, h, nowMs){
+  var cx = w / 2, cy = h * 0.54;
+  var cp = CRAFT_PROFILES[FLIGHT.craft];
+  ctx.save();
+  ctx.strokeStyle = cp.color;
+  ctx.fillStyle = cp.color;
+  ctx.lineWidth = 1.8;
+
+  if(FLIGHT.craft === "hawk"){
+    // Hawk Wing-Tip Silhouette & Thermal Lift Reticle
+    var flap = Math.sin(nowMs * 0.006) * 14;
+    ctx.beginPath();
+    ctx.moveTo(cx - 110, cy + 25 + flap);
+    ctx.quadraticCurveTo(cx - 45, cy - 8, cx, cy + 6);
+    ctx.quadraticCurveTo(cx + 45, cy - 8, cx + 110, cy + 25 + flap);
+    ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, 24, 0, Math.PI * 2); ctx.stroke();
+    ctx.font = "800 11px monospace";
+    ctx.fillText("🦅 HAWK EYE • GLIDE " + Math.round(cp.baseMph * FLIGHT.speedMult) + " MPH EFF", cx - 95, cy + 52);
+  }else if(FLIGHT.craft === "plane" || FLIGHT.craft === "jet"){
+    // Artificial Horizon Pitch Ladder & Bank Indicator
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate((-FLIGHT.bankDeg * Math.PI) / 180);
+    for(var p=-20; p<=20; p+=10){
+      var py = p * 3.2;
+      ctx.beginPath();
+      ctx.moveTo(-45, py); ctx.lineTo(-15, py);
+      ctx.moveTo(15, py);  ctx.lineTo(45, py);
+      ctx.stroke();
+    }
+    ctx.restore();
+    // Fixed Aircraft Reference W-Symbol
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - 32, cy); ctx.lineTo(cx - 10, cy); ctx.lineTo(cx - 5, cy + 6);
+    ctx.moveTo(cx + 5, cy + 6); ctx.lineTo(cx + 10, cy); ctx.lineTo(cx + 32, cy);
+    ctx.stroke();
+    ctx.font = "800 11px monospace";
+    ctx.fillText((FLIGHT.craft === "jet" ? "MACH 0.85 • FL320" : "VFR CORRIDOR • 160 KTS") + " (" + FLIGHT.speedMult + "× SIM)", cx - 92, cy + 55);
+  }else{
+    // LEO Satellite Orbital Nadir Crosshair & Swath Grid
+    ctx.strokeRect(cx - 140, cy - 90, 280, 180);
+    ctx.beginPath();
+    ctx.moveTo(cx - 160, cy); ctx.lineTo(cx + 160, cy);
+    ctx.moveTo(cx, cy - 110); ctx.lineTo(cx, cy + 110);
+    ctx.stroke();
+    ctx.font = "800 11px monospace";
+    ctx.fillText("🛰️ NADIR TRACK • INC 51.6° • ALT 250 MI", cx - 125, cy + 108);
+  }
+  ctx.restore();
+}
+
+function renderRadarMiniMap(){
+  var rw = radarCv.width, rh = radarCv.height;
+  rCtx.fillStyle = "#040B16";
+  rCtx.fillRect(0, 0, rw, rh);
+
+  // Bounding box for Palisades (40.93) to Statue of Liberty (40.67), Lon -74.08 to -73.88
+  function toRadarXY(lat, lon){
+    var nx = (lon - (-74.08)) / ((-73.88) - (-74.08));
+    var ny = 1 - (lat - 40.66) / (40.94 - 40.66);
+    return { x: Math.max(8, Math.min(rw - 8, nx * rw)), y: Math.max(8, Math.min(rh - 8, ny * rh)) };
+  }
+
+  // Draw Route Line on Radar
+  rCtx.strokeStyle = "#D4AF37";
+  rCtx.lineWidth = 2;
+  rCtx.beginPath();
+  FLIGHT.route.forEach(function(wp, i){
+    var p = toRadarXY(wp.lat, wp.lon);
+    if(i === 0) rCtx.moveTo(p.x, p.y); else rCtx.lineTo(p.x, p.y);
+  });
+  rCtx.stroke();
+
+  // Draw Waypoint Dots
+  FLIGHT.route.forEach(function(wp){
+    var p = toRadarXY(wp.lat, wp.lon);
+    rCtx.fillStyle = "#38BDF8";
+    rCtx.beginPath(); rCtx.arc(p.x, p.y, 3, 0, Math.PI * 2); rCtx.fill();
+  });
+
+  // Draw Current Craft Position Pulse
+  var curP = toRadarXY(FLIGHT.lat, FLIGHT.lon);
+  rCtx.fillStyle = "#34D399";
+  rCtx.beginPath(); rCtx.arc(curP.x, curP.y, 5.5, 0, Math.PI * 2); rCtx.fill();
+  rCtx.strokeStyle = "#FFFFFF"; rCtx.lineWidth = 1.5; rCtx.stroke();
+
+  rCtx.fillStyle = "#94A3B8";
+  rCtx.font = "700 9px monospace";
+  rCtx.fillText("HUDSON RADAR (A→B)", 6, 12);
+}
+
+// Optional Ambient Flight Audio Generator (Wind Rush / Prop / Jet / Orbital Telemetry)
+var flightAudioCtx = null, flightNoiseGain = null;
+function toggleAmbientFlightAudio(on){
+  if(!on){
+    if(flightNoiseGain && flightAudioCtx) flightNoiseGain.gain.setValueAtTime(0, flightAudioCtx.currentTime);
+    return;
+  }
+  if(!flightAudioCtx){
+    var AC = window.AudioContext || window.webkitAudioContext;
+    flightAudioCtx = new AC();
+    var sr = flightAudioCtx.sampleRate;
+    var nBuf = flightAudioCtx.createBuffer(1, sr * 2, sr);
+    var d = nBuf.getChannelData(0);
+    for(var i=0; i<d.length; i++) d[i] = (Math.random() * 2 - 1) * 0.35;
+    var src = flightAudioCtx.createBufferSource();
+    src.buffer = nBuf; src.loop = true;
+    var flt = flightAudioCtx.createBiquadFilter();
+    flt.type = "bandpass"; flt.frequency.value = 420; flt.Q.value = 1.8;
+    flightNoiseGain = flightAudioCtx.createGain();
+    flightNoiseGain.gain.value = 0.14;
+    src.connect(flt); flt.connect(flightNoiseGain); flightNoiseGain.connect(flightAudioCtx.destination);
+    src.start(0);
+  }
+  if(flightAudioCtx.state === "suspended") flightAudioCtx.resume();
+  if(flightNoiseGain) flightNoiseGain.gain.setValueAtTime(0.14, flightAudioCtx.currentTime);
+}
+
+// Wire All Controls
+(function(){
+  var origSel = document.getElementById("originPresetSel");
+  var destSel = document.getElementById("destPresetSel");
+  LANDMARKS.forEach(function(lm, idx){
+    var o1 = document.createElement("option"); o1.value = lm.id; o1.textContent = lm.name + " (" + lm.alt + "ft)";
+    var o2 = document.createElement("option"); o2.value = lm.id; o2.textContent = lm.name + " (" + lm.alt + "ft)";
+    if(lm.id === "palisades") o1.selected = true;
+    if(lm.id === "liberty")   o2.selected = true;
+    origSel.appendChild(o1);
+    destSel.appendChild(o2);
+  });
+
+  function setCraftMode(cKey){
+    FLIGHT.craft = cKey;
+    var cp = CRAFT_PROFILES[cKey] || CRAFT_PROFILES.hawk;
+    FLIGHT.altFt = cp.altFt;
+    FLIGHT.zoom = cp.zoom;
+    FLIGHT.pitchDeg = cp.pitch;
+    document.querySelectorAll(".craft-card").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.craft === cKey); });
+    document.getElementById("hudCraftBadge").textContent = cp.name;
+    document.getElementById("altitudeRangeIn").value = cp.altFt;
+    document.getElementById("altitudeValLbl").textContent = cp.altFt >= 52800 ? "250 mi" : (cp.altFt.toLocaleString() + " ft");
+    document.getElementById("zoomLevelRangeIn").value = cp.zoom;
+    document.getElementById("zoomLevelValLbl").textContent = cp.zoom + "z";
+    document.getElementById("camPitchRangeIn").value = cp.pitch;
+    document.getElementById("camPitchValLbl").textContent = cp.pitch + "° Tilt";
+    updateFlightPositionFromProgress();
+  }
+
+  document.querySelectorAll(".craft-card").forEach(function(btn){
+    btn.onclick = function(){ setCraftMode(btn.dataset.craft); };
+  });
+
+  // Speed Multiplier Controls (Default 20x!)
+  function setSpeedMultiplier(mult){
+    FLIGHT.speedMult = Math.max(1, Math.min(100, +mult || 20));
+    document.getElementById("speedMultRange").value = FLIGHT.speedMult;
+    document.getElementById("speedMultLbl").textContent = FLIGHT.speedMult + "×";
+    document.getElementById("hudSpeedBadge").textContent = "⚡ " + FLIGHT.speedMult + "× SPEED";
+    if(FLIGHT.playing) document.getElementById("playPauseFlightBtn").textContent = "⏸ Flying (" + FLIGHT.speedMult + "×)";
+    document.querySelectorAll("#quickSpeedSeg button").forEach(function(b){
+      b.setAttribute("aria-pressed", +b.dataset.spd === FLIGHT.speedMult);
+    });
+  }
+  document.querySelectorAll("#quickSpeedSeg button").forEach(function(b){
+    b.onclick = function(){ setSpeedMultiplier(+b.dataset.spd); };
+  });
+  document.getElementById("speedMultRange").oninput = function(){ setSpeedMultiplier(+this.value); };
+
+  // Preset Test Flight: Palisades to Statue of Liberty at 20x Speed!
+  function launchPalisadesToLibertyTestFlight(){
+    FLIGHT.route = [
+      { name:"1. Palisades Cliffs (State Line Lookout, NJ)", lat:40.9168, lon:-73.9082, alt:520 },
+      { name:"2. George Washington Bridge (Hudson Span)",    lat:40.8517, lon:-73.9527, alt:620 },
+      { name:"3. Midtown West / USS Intrepid Pier 86",       lat:40.7644, lon:-74.0007, alt:550 },
+      { name:"4. Lower Manhattan / One World Trade",         lat:40.7127, lon:-74.0134, alt:500 },
+      { name:"5. Ellis Island National Monument",            lat:40.6995, lon:-74.0396, alt:420 },
+      { name:"6. Statue of Liberty (Liberty Island, NY)",    lat:40.6892, lon:-74.0445, alt:320 }
+    ];
+    FLIGHT.progress = 0.0;
+    FLIGHT.playing = true;
+    setSpeedMultiplier(20);
+    document.getElementById("hudRouteTitle").textContent = "Palisades Cliffs, NJ → Statue of Liberty, NY";
+    renderWaypointsList();
+    updateFlightPositionFromProgress();
+  }
+  document.getElementById("flyPalisadesLibertyBtn").onclick = launchPalisadesToLibertyTestFlight;
+  document.getElementById("restartFlightBtn").onclick = function(){
+    FLIGHT.progress = 0.0;
+    FLIGHT.playing = true;
+    updateFlightPositionFromProgress();
+  };
+
+  document.getElementById("playPauseFlightBtn").onclick = function(){
+    FLIGHT.playing = !FLIGHT.playing;
+    this.textContent = FLIGHT.playing ? ("⏸ Flying (" + FLIGHT.speedMult + "×)") : "▶ Resume Flight";
+  };
+
+  document.getElementById("flightProgressScrub").oninput = function(){
+    FLIGHT.progress = +this.value / 1000;
+    updateFlightPositionFromProgress();
+    renderWaypointsList();
+  };
+
+  document.getElementById("applyPointToPointBtn").onclick = function(){
+    var oLm = LANDMARKS.find(function(l){ return l.id === origSel.value; }) || LANDMARKS[0];
+    var dLm = LANDMARKS.find(function(l){ return l.id === destSel.value; }) || LANDMARKS[5];
+    FLIGHT.route = [
+      { name: "1. " + oLm.name, lat: oLm.lat, lon: oLm.lon, alt: oLm.alt },
+      { name: "2. " + dLm.name, lat: dLm.lat, lon: dLm.lon, alt: dLm.alt }
+    ];
+    FLIGHT.progress = 0.0;
+    FLIGHT.playing = true;
+    document.getElementById("hudRouteTitle").textContent = oLm.name.split("(")[0].trim() + " → " + dLm.name.split("(")[0].trim();
+    renderWaypointsList();
+    updateFlightPositionFromProgress();
+  };
+
+  document.getElementById("reverseRouteBtn").onclick = function(){
+    FLIGHT.route.reverse();
+    FLIGHT.progress = 0.0;
+    renderWaypointsList();
+    updateFlightPositionFromProgress();
+  };
+
+  document.getElementById("addCustomWpBtn").onclick = function(){
+    var nm = document.getElementById("customWpNameIn").value || "Custom Point";
+    var lt = parseFloat(document.getElementById("customWpLatIn").value) || 40.7484;
+    var ln = parseFloat(document.getElementById("customWpLonIn").value) || -73.9857;
+    var al = parseInt(document.getElementById("customWpAltIn").value, 10) || 1500;
+    FLIGHT.route.splice(Math.max(1, FLIGHT.route.length - 1), 0, {
+      name: (FLIGHT.route.length) + ". " + nm, lat: lt, lon: ln, alt: al
+    });
+    renderWaypointsList();
+  };
+
+  // Altitude, Zoom, Pitch & Map Layer Controls
+  document.getElementById("altitudeRangeIn").oninput = function(){
+    FLIGHT.altFt = +this.value;
+    FLIGHT.followWpAlt = false;
+    document.getElementById("autoAltProfileChk").checked = false;
+    document.getElementById("altitudeValLbl").textContent = FLIGHT.altFt >= 52800 ? ((FLIGHT.altFt/5280).toFixed(0) + " mi") : (FLIGHT.altFt.toLocaleString() + " ft");
+    updateFlightPositionFromProgress();
+  };
+  document.getElementById("zoomLevelRangeIn").oninput = function(){
+    FLIGHT.zoom = +this.value;
+    document.getElementById("zoomLevelValLbl").textContent = FLIGHT.zoom.toFixed(1) + "z";
+  };
+  document.getElementById("camPitchRangeIn").oninput = function(){
+    FLIGHT.pitchDeg = +this.value;
+    document.getElementById("camPitchValLbl").textContent = FLIGHT.pitchDeg + "° Tilt";
+  };
+  document.getElementById("mapLayerStyleSel").onchange = function(){ FLIGHT.mapStyle = this.value; };
+  document.getElementById("autoAltProfileChk").onchange = function(){ FLIGHT.followWpAlt = this.checked; };
+  document.getElementById("show3dBuildingsChk").onchange = function(){ FLIGHT.show3dBuildings = this.checked; };
+  document.getElementById("showHudOverlayChk").onchange = function(){ FLIGHT.showHud = this.checked; };
+  document.getElementById("ambientFlightAudioChk").onchange = function(){ toggleAmbientFlightAudio(this.checked); };
+
+  // Passive Cinema Full-Screen Toggle
+  document.getElementById("passiveFsToggleBtn").onclick = function(){
+    var on = !document.body.classList.contains("passive-fs");
+    document.body.classList.toggle("passive-fs", on);
+    this.textContent = on ? "✕ Exit Cinema View" : "⛶ Passive Cinema View";
+  };
+
+  // Interactive Drag on Viewport to Adjust Camera Gimbal Pitch & Heading Offset
+  var vpDragging = false, lastX = 0, lastY = 0;
+  flightCv.addEventListener("pointerdown", function(e){
+    vpDragging = true; lastX = e.clientX; lastY = e.clientY;
+    try{ flightCv.setPointerCapture(e.pointerId); }catch(err){}
+  });
+  flightCv.addEventListener("pointermove", function(e){
+    if(!vpDragging) return;
+    FLIGHT.pitchDeg = Math.max(0, Math.min(65, FLIGHT.pitchDeg - (e.clientY - lastY) * 0.25));
+    document.getElementById("camPitchRangeIn").value = Math.round(FLIGHT.pitchDeg);
+    document.getElementById("camPitchValLbl").textContent = Math.round(FLIGHT.pitchDeg) + "° Tilt";
+    lastX = e.clientX; lastY = e.clientY;
+  });
+  window.addEventListener("pointerup", function(){ vpDragging = false; });
+
+  
+  radarCv.addEventListener("pointerdown", function(e){
+    var r = radarCv.getBoundingClientRect();
+    var nx = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+    var ny = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
+    var clickedLon = -74.08 + nx * ((-73.88) - (-74.08));
+    var clickedLat = 40.94 - ny * (40.94 - 40.66);
+    FLIGHT.route.splice(Math.max(1, FLIGHT.route.length - 1), 0, {
+      name: (FLIGHT.route.length) + ". Radar Waypoint (" + clickedLat.toFixed(3) + "°N)",
+      lat: +clickedLat.toFixed(4),
+      lon: +clickedLon.toFixed(4),
+      alt: FLIGHT.altFt
+    });
+    renderWaypointsList();
+  });
+
+  initSharedCustomizerBar();
+  loadSharedUi();
+  launchPalisadesToLibertyTestFlight();
+  requestAnimationFrame(renderAerialFlightFrame);
+})();
+</script>
+</body>
+</html>
